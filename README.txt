@@ -1,10 +1,11 @@
 Author(s): Andrew Domaszek
-Hardware Platform: DM164130-9-ND Microchip Low Pin Count Demo Board
+IC: PIC16F1579-I/P
+Hardware Platform: DM164130-9 Microchip Low Pin Count Demo Board
 Debuggers Used: PICkit3
 Programmers Used: PICkit3
 MPLAB Version: MPLAB X v3.40
-C Compiler Version: XC8 v1.38 
-Final Checksum: ????
+C Compiler Version: XC8 v1.38
+Final Checksum: ff93
 
 DESCRIPTION AND CONFIGURATION
 =============================
