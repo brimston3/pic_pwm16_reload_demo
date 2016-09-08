@@ -32,15 +32,18 @@ Compiler:       XC8 v1.38, free mode
  
  NO_PWM_MANGLING              - disable switching PWM modes.
  PWM_CLEAR_TMR_ON_MODE_CHANGE - zero timer count registers when switching.
+                                not recommended except when bypassing buffered
+                                registers (DISABLE_PWM_FOR_UPDATE).
  EXTERNAL_PULLUP_RA2          - external pull-up applied to RA2, don't pull up
                                 internally.
  RC0_ALL_INTERRUPTS           - toggle RC0 on every interrupt, not just unhandled
                                 interrupts.
  BOTH_ON_DUTY_CYCLE           - change mode either way on duty cycle interrupt
-                                for testing symmetry,
+                                for testing symmetry.
                                 default is 0->1 on DC, 1->0 on PR
  DISABLE_PWM_FOR_UPDATE       - turn PWM off for updates, bypass double-buffered
                                 registers.
+                                Usually also want PWM_CLEAR_TMR_ON_MODE_CHANGE.
 *****************************/
 //#define NO_PWM_MANGLING
 //#define PWM_CLEAR_TMR_ON_MODE_CHANGE
