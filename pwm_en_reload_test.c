@@ -53,6 +53,20 @@ Compiler:       XC8 v1.38, free mode
 //#define DISABLE_PWM_FOR_UPDATE
 
 /*****************************
+ Global Variables.
+*****************************/
+uint8_t g_mode = 0; // indexes pwm1_modes.
+uint8_t c0flip = 0; // For toggling rc0 a bit.
+
+const struct {
+    uint8_t prh;
+    uint8_t dch;
+} pwm1_modes[] = {
+    {100,50},
+    {24,12}
+};
+
+/*****************************
  Port Initializations.
 *****************************/
 
@@ -71,23 +85,15 @@ void PortAInitialize()
 #endif
 }
 
+// Port C: Interrupt event monitor.
 void PortCInitialize()
 {
     ANSELC = 0b11111110; // digital RC0
     TRISC =  0b11111110; // output RC0
+    //RC0PPS = 0x00; // LATC0 output, default
 }
 
-uint8_t g_mode = 0;
-uint8_t c0flip = 0; // For toggling rc0 a bit.
-
-const struct {
-    uint8_t prh;
-    uint8_t dch;
-} pwm1_modes[] = {
-    {100,50},
-    {24,12}
-};
-
+// PWM1: Run at table-defined periods 
 void Pwm1Initialize()
 {
     //PWM1CONbits.MODE = 0; // standard (period) mode, the default
@@ -117,6 +123,8 @@ void Pwm1Initialize()
     PIE3bits.PWM1IE = 1; // PWM1 interrupts on.
 }
 
+// Change PWM1 mode to argument.
+// Called from interrupt!
 void update_pwm1(uint8_t ra2bit)
 {
 #if !defined(NO_PWM_MANGLING)
