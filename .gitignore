@@ -1,0 +1,16 @@
+build/**
+build/**/*.p1
+build/**/*.pre
+disassembly/**
+dist/**/*.cmf
+dist/**/*.elf
+dist/**/*.hxl
+dist/**/*.lst
+dist/**/*.map
+dist/**/*.mum
+dist/**/*.obj
+dist/**/*.rlf
+dist/**/*.sdb
+dist/**/*.sym
+memoryfile.xml
+nbproject/private/
