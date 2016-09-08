@@ -36,12 +36,18 @@ Compiler:       XC8 v1.38, free mode
                                 internally.
  RC0_ALL_INTERRUPTS           - toggle RC0 on every interrupt, not just unhandled
                                 interrupts.
+ BOTH_ON_DUTY_CYCLE           - change mode either way on duty cycle interrupt
+                                for testing symmetry,
+                                default is 0->1 on DC, 1->0 on PR
+ DISABLE_PWM_FOR_UPDATE       - turn PWM off for updates, bypass double-buffered
+                                registers.
 *****************************/
 //#define NO_PWM_MANGLING
 //#define PWM_CLEAR_TMR_ON_MODE_CHANGE
 #define EXTERNAL_PULLUP_RA2
 #define RC0_ALL_INTERRUPTS
 //#define BOTH_ON_DUTY_CYCLE
+//#define DISABLE_PWM_FOR_UPDATE
 
 /*****************************
  Port Initializations.
@@ -112,8 +118,10 @@ void update_pwm1(uint8_t ra2bit)
 {
 #if !defined(NO_PWM_MANGLING)
     g_mode = ra2bit;
-            
-    //PWM1CONbits.EN = 0;
+    
+#if defined(DISABLE_PWM_FOR_UPDATE)
+    PWM1CONbits.EN = 0;
+#endif
             
     PWM1PRH = pwm1_modes[g_mode].prh;
     PWM1PRL = 0;
@@ -128,7 +136,9 @@ void update_pwm1(uint8_t ra2bit)
     PWM1LDCONbits.LDA = 1;
             
     LATA4 = g_mode;
-    //PWM1CONbits.EN = 1;
+#if defined(DISABLE_PWM_FOR_UPDATE)
+    PWM1CONbits.EN = 1;
+#endif
 #endif
 }
 
